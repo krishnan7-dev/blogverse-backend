@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
-const User = require('../models/User');
+const Blog = require('../models/Blog');
 
-router.delete('/:id', (req, res) => {
+router.get('/:id', (req, res) => {
     const { id } = req.params;
-    User.destroy({
+    Blog.findAll({
         where: {
             id
         }
     })
-        .then(() => res.send('User deleted successfully'))
+        .then((blog) => res.json(blog))
         .catch(err => res.json(err));
 });
 

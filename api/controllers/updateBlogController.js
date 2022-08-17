@@ -1,17 +1,17 @@
 const express = require('express');
 const router = express.Router();
 
-const User = require('../models/User');
+const Blog = require('../models/Blog');
 
 router.put('/:id', (req, res) => {
-    const { username, email, password } = req.body;
     const { id } = req.params;
-    User.update({ username, email, password }, {
+    const { title, content } = req.body;
+    Blog.update({ title, content }, {
         where: {
             id
         }
     })
-        .then(() => res.send('User updated successfully'))
+        .then(() => res.send('Blog was updated successfully'))
         .catch(err => res.json(err));
 });
 

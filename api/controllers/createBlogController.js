@@ -1,22 +1,20 @@
 const express = require('express');
 const router = express.Router();
 
-const User = require('../models/User');
+const Blog = require('../models/Blog');
 
 const generateID = require('../utils/idGenerator');
 
 router.post('/', (req, res) => {
-    const { username, email, password } = req.body;
+    const { title, content, author_id } = req.body;
     const id = generateID();
-    User.create({
+    Blog.create({
         id,
-        username,
-        email,
-        password
+        title,
+        content,
+        author_id
     })
-        .then(() => {
-            res.send('User created successfully');
-        })
+        .then(() => res.send('Blog created successfully'))
         .catch(err => res.json(err));
 });
 

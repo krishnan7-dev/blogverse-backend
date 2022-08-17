@@ -1,13 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const User = require('../models/User');
+const Blog = require('../models/Blog');
 
 router.get('/', (req, res) => {
-    User.findAll()
-        .then((users) => {
-            res.json(users);
-        })
+    Blog.findAll()
+        .then((blogs) => res.json(blogs))
         .catch(err => res.json(err));
 });
 

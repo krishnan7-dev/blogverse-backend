@@ -11,7 +11,7 @@ router.get('/:id', (req, res) => {
         }
     })
         .then((user) => res.json(user))
-        .catch(err => res.send(err));
+        .catch(err => res.json(err));
 });
 
 module.exports = router;
