@@ -7,6 +7,6 @@ const updateUserController = require('../controllers/updateUserController');
 const deleteUserController = require('../controllers/deleteUserController');
 const getUserController = require('../controllers/getUserController');
 
-router.use('/create', [createUserController, getAllUsersController, updateUserController, deleteUserController, getUserController]);
+router.use('/', [createUserController, getAllUsersController, updateUserController, deleteUserController, getUserController]);
 
 module.exports = router;
