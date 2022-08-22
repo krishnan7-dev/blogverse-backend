@@ -18,6 +18,7 @@ const cors = require('cors')
 // Importing routes
 const userRoutes = require('./api/routes/userRoutes');
 const blogRoutes = require('./api/routes/blogRoutes');
+const loginRoute = require('./api/routes/loginRoute');
 
 // Middlewares
 app.use(cors());
@@ -26,6 +27,7 @@ app.use(express.json());
 // Creating routes
 app.use('/user', userRoutes);
 app.use('/blog', blogRoutes);
+app.use('/login', loginRoute);
 
 
 app.listen(PORT, () => {
