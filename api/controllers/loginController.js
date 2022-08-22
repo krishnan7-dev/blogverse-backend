@@ -21,10 +21,31 @@ router.post('/', (req, res) => {
     })
         .then(([user]) => {
             if (user) {
-                bcrypt.compare(password, user.password)
+                bcrypt.compare(password, user.dataValues.password)
                     .then((result) => {
                         if (result) {
-                            // Do something
+                            generateKeyPair('rsa', {
+                                modulusLength: 512,
+                                publicKeyEncoding: {
+                                    type: 'spki',
+                                    format: 'pem'
+                                },
+                                privateKeyEncoding: {
+                                    type: 'pkcs8',
+                                    format: 'pem'
+                                }
+                            }, (err, publicKey, privateKey) => {
+                                if (err) {
+                                    console.log(err);
+                                    return res.status(500).json({ err })
+                                }
+                                const accessToken = jwt.sign({ 
+                                    username: user.dataValues.username,
+                                    email: user.dataValues.email,
+                                    password: user.dataValues.password,
+                                }, privateKey, { algorithm: 'RS256', expiresIn: '24h' });
+                                res.json({ accessToken });
+                            });
                         } else {
                             res.json({ err: "Incorrect password" });
                         }
