@@ -12,8 +12,8 @@ module.exports = db.define('blog', {
     content: {
         type: Sequelize.TEXT
     },
-    author_id: {
-        type: Sequelize.UUIDV4
+    author: {
+        type: Sequelize.STRING
     }
 },
 {
