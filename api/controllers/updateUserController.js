@@ -15,7 +15,7 @@ router.put('/:id', (req, res) => {
 
     const validationResult = ValidateCredentials(username, email, password);
     if (!validationResult.valid) {
-        return res.json({ err: validationResult.error });
+        return res.json({ error: validationResult.err });
     }
 
     bcrypt.hash(password, saltRounds)
