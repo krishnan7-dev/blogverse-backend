@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { generateKeyPairSync } = require('crypto');
 
-module.exports = (username, email, password) => {
+module.exports = (id, username, email, password) => {
     const { privateKey } = generateKeyPairSync('rsa', {
         modulusLength: 512,
         publicKeyEncoding: {
@@ -13,7 +13,8 @@ module.exports = (username, email, password) => {
             format: 'pem'
         }
     });
-    const accessToken = jwt.sign({ 
+    const accessToken = jwt.sign({
+        id,
         username,
         email,
         password
