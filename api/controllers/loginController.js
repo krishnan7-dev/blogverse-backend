@@ -24,7 +24,7 @@ router.post('/', (req, res) => {
                 bcrypt.compare(password, user.dataValues.password)
                     .then((result) => {
                         if (result) {
-                            const accessToken = generateJwt(user.dataValues.username, user.dataValues.email, password);
+                            const accessToken = generateJwt(user.dataValues.id, user.dataValues.username, user.dataValues.email, password);
                             return res.json({ accessToken });
                         } else {
                             res.json({ err: "Incorrect password" });
