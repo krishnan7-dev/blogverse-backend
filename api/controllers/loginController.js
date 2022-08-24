@@ -5,8 +5,8 @@ const User = require('../models/User');
 
 const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
-const { generateKeyPair } = require('crypto')
-const jwt = require('jsonwebtoken');
+
+const generateJwt  = require('../utils/generateJwt');
 
 router.post('/', (req, res) => {
     const { credential, password } = req.body;
@@ -24,32 +24,12 @@ router.post('/', (req, res) => {
                 bcrypt.compare(password, user.dataValues.password)
                     .then((result) => {
                         if (result) {
-                            generateKeyPair('rsa', {
-                                modulusLength: 512,
-                                publicKeyEncoding: {
-                                    type: 'spki',
-                                    format: 'pem'
-                                },
-                                privateKeyEncoding: {
-                                    type: 'pkcs8',
-                                    format: 'pem'
-                                }
-                            }, (err, publicKey, privateKey) => {
-                                if (err) {
-                                    console.log(err);
-                                    return res.status(500).json({ err })
-                                }
-                                const accessToken = jwt.sign({ 
-                                    username: user.dataValues.username,
-                                    email: user.dataValues.email,
-                                    password: user.dataValues.password,
-                                }, privateKey, { algorithm: 'RS256', expiresIn: '24h' });
-                                res.json({ accessToken });
-                            });
+                            const accessToken = generateJwt(user.dataValues.username, user.dataValues.email, password);
+                            return res.json({ accessToken });
                         } else {
                             res.json({ err: "Incorrect password" });
                         }
-                    })
+                    });
             } else {
                 res.json({ err: "Username or email does not exist" });
             }
