@@ -9,10 +9,10 @@ const ValidateCredentials = require('../validation/validateCredentials');
 
 const saltRounds = 10;
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     const { username, email, password } = req.body;
 
-    const validationResult = ValidateCredentials(username, email, password);
+    const validationResult = await ValidateCredentials(username, email, password);
     if (!validationResult.valid) {
         return res.json({ err: validationResult.error });
     }
