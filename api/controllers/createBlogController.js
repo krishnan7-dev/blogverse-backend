@@ -4,9 +4,16 @@ const router = express.Router();
 const Blog = require('../models/Blog');
 
 const generateID = require('../utils/idGenerator');
+const ValidateBlog = require('../validation/validateBlog');
 
 router.post('/', (req, res) => {
     const { title, content, author } = req.body;
+
+    const validationResult = ValidateBlog(title, content);
+    if (!validationResult.valid) {
+        return res.json({ error: validationResult.error });
+    }
+    
     const id = generateID();
     Blog.create({
         id,
